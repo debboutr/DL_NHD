@@ -16,7 +16,8 @@ import zipfile
 from bs4 import BeautifulSoup
 import requests
 
-inputs = ['01','02','03N','03S','03W','04','05','06','07','08','09','10U','10L','11','12','13','14','15','16','17','18']
+inputs = ['01','02','03N','03S','03W','04','05','06','07','08','09','10U','10L',
+          '11','12','13','14','15','16','17','18']
 
 def pickURL(obj):
     for link in obj.find_all('a'):
