@@ -15,6 +15,11 @@ import sys, os
 import zipfile
 from bs4 import BeautifulSoup
 import requests
+### dontbelikeme namespacepollutionisreal ###
+from tkinter import *
+from tkinter import messagebox
+from tkinter.filedialog import *
+from tkinter.ttk import *
 
 inputs = ['01','02','03N','03S','03W','04','05','06','07','08','09','10U','10L',
           '11','12','13','14','15','16','17','18']
@@ -39,7 +44,8 @@ r  = requests.get(html)
 data = r.text
 soup = BeautifulSoup(data)
 dl= []
-store = 'L:/Public/rdebbout/NHDv21_zips'
+initialdir = 'L:/Public/rdebbout/NHDv21_zips'
+store = askdirectory(initialdir=initialdir)
 ###############################################################################
 # this block gets just catchment zips for each region in inputs
 for link in soup.find_all('a'):
