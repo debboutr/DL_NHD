@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+This script is being developed...Currently it gathers all of the URLs to every
+.7z file in horizon-systems NHDPlusV2_data page based on the zones that are 
+included in the inputs list. 
 
-This is a temporary script file.
+Need to develop a GUI to allow the selection of zones, as well as, select the 
+desired .7z files within each zone, reducing the amount of data to be downloaded
+
+Further development could also include flexibility in how the files are unziped,
+currently a shell script is created that can then be run once all .7z files are
+downloaded.
 """
 import sys, os
 import zipfile
@@ -19,9 +26,9 @@ def pickURL(obj):
 
 def pickAll(obj):  
     d = []          
-    for link in stew.find_all('a'):
+    for link in obj.find_all('a'):
         name = link.get('href')
-        if name and 'http' in name and not 'horizon-systems' in name:
+        if name and 'http' in name and '.7z' in name:
             d.append(name)
     return d
     
@@ -31,6 +38,7 @@ r  = requests.get(html)
 data = r.text
 soup = BeautifulSoup(data)
 dl= []
+store = 'L:/Public/rdebbout/NHDv21_zips'
 ###############################################################################
 # this block gets just catchment zips for each region in inputs
 for link in soup.find_all('a'):
@@ -45,6 +53,7 @@ for link in soup.find_all('a'):
 for link in soup.find_all('a'):
     for s in inputs:
         if s in link.get('href'):
+            #print link.get('href')
             h = requests.get(root + link.get('href'))
             dat = h.text
             stew = BeautifulSoup(dat)
@@ -52,16 +61,16 @@ for link in soup.find_all('a'):
             for x in g:
                 dl.append(x)
 ###############################################################################
-# this block does the downloadin of the zips saved in the dl object above
+# this block does the downloading of the zips saved in the dl object above
 for x in range(len(dl)):
-    if not os.path.exists("/media/rick/Seagate Backup Plus Drive/NHDv21/%s"%dl[x].split('/')[-1]):
+    if not os.path.exists("%s/%s" % (store, dl[x].split('/')[-1])):
         r = requests.get(dl[x])
-        with open("/media/rick/Seagate Backup Plus Drive/NHDv21/%s"%dl[x].split('/')[-1], "wb") as code:
+        with open("%s/%s" % (store, dl[x].split('/')[-1]), "wb") as code:
             code.write(r.content)
 ###############################################################################
 # this block writes a file to .spyder2 to run at the command line for unzipping
 # ./
-with open("/media/rick/Seagate Backup Plus Drive/NHDv21/unzip.sh", "w") as text_file:
+with open("%s/unzip.sh" % store, "w") as text_file:
     text_file.write("#! /bin/bash\n")
     text_file.write("\n")
     for x in dl:
