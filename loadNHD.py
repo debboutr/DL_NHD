@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+j# -*- coding: utf-8 -*-
 """
 This script is being developed...Currently it gathers all of the URLs to every
 .7z file in horizon-systems NHDPlusV2_data page based on the zones that are 
@@ -35,6 +35,7 @@ def pickAll(obj):
     
 root = 'http://www.horizon-systems.com/NHDPlus/'
 html = 'http://www.horizon-systems.com/NHDPlus/NHDPlusV2_data.php'
+html = 'https://nhdplus.com/NHDPlus/NHDPlusV2_data.php'
 r  = requests.get(html)
 data = r.text
 soup = BeautifulSoup(data)
